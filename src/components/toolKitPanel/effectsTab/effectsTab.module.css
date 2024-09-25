@@ -1,0 +1,41 @@
+.title {
+	height: auto;
+	display: flex;
+
+	padding-bottom: 8px;
+	border-bottom: solid 1px var(--border-color);
+}
+
+.title p {
+	margin-left: 12px;
+}
+
+.cardWrapper {
+	margin-top: 12px;
+	padding: 0 5px;
+}
+
+.subTitle {
+	display: flex;
+}
+
+.subTitle p {
+	margin-left: 12px;
+}
+.boardWrapper{
+	display:flex;
+	margin-top:10px;
+	flex-direction: row;
+}
+.optionWrapper{
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.labelSwitch {
+	display: flex;
+	/*flex-direction: row;*/
+	justify-content: space-between;
+}
+.optionsArea{
+padding: 0 8px;
+}

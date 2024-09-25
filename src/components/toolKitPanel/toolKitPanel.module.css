@@ -1,0 +1,27 @@
+.wrapper {
+	width: 600px;
+	height: 100%;
+	padding: 6px 12px 12px;
+	overflow: scroll;
+	background-color: var(--background-color-bp5-dark);
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 1px 1px 0 rgba(17, 20, 24, 0.4);
+}
+
+.header {
+	display: flex;
+	padding: 10px 20px 10px 0;
+}
+
+.title {
+	margin-left: 12px;
+	font-weight: 500;
+}
+
+/*.tabs {*/
+/*	margin-bottom: 12px;*/
+/*}*/
+
+.tabs :global .bp5-tab-list {
+	/*justify-content: space-around;*/
+	justify-content: space-between;
+}

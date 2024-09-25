@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&display=swap');
+@import "normalize.css";
+@import "@blueprintjs/core/lib/css/blueprint.css";
+@import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "@blueprintjs/select/lib/css/blueprint-select.css";
+@import "reset.css";
+
+:root {
+	--font-family-Nunito: 'Nunito', sans-serif;
+	--background-color-bp5-dark: #383e47;
+	--text-color-white: #f6f7f9;
+	--border-color: rgba(255, 255, 255, 0.2);
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html,
+body {
+	max-width: 100vw;
+	overflow-x: hidden;
+	background-color: var(--background-color-bp5-dark);
+	position: absolute
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* blueprint */
+/* 紫色 ["#E1BAE1", "#C59BC5", "#AA7CA9", "#905E8F", "#764275", "#5C255C"]*/
+/* 蓝紫色 ["#D6CCFF", "#BDAFED", "#A492DB", "#8B77C9", "#715CB8", "#5642A6"]*/
+/* 蓝色 ["#B3CFFF", "#7D97D5", "#7D97D5", "#617DC1", "#4463AD", "#1F4B99"]*/
+.bp5-dark a,
+.bp5-dark a:hover {
+	color: #e1bae1 !important;
+}
+
+/* spinner */
+.bp5-dark .bp5-spinner .bp5-spinner-track {
+	stroke: rgba(92, 37, 92, 0.49) !important;
+}
+
+.bp5-dark .bp5-spinner .bp5-spinner-head {
+	stroke: #e1bae1 !important;
+}
+
+/* slider */
+.bp5-slider-progress.bp5-intent-primary {
+	background-color: #905e8f !important;
+}
+
+/* switch */
+.bp5-dark .bp5-control.bp5-switch input:checked ~ .bp5-control-indicator {
+	background: #905e8f !important;
+}
+
+/*.bp5-dark .bp5-control.bp5-switch:hover input,*/
+/*.bp5-dark .bp5-control.bp5-switch:hover .bp5-control-indicator {*/
+/*	background-color: #905e8f !important;*/
+/*}*/
+
+/* radio */
+.bp5-control input:checked ~ .bp5-control-indicator {
+	background-color: #905e8f !important;
+}
+
+.bp5-control.bp5-radio:not(.bp5-control.bp5-radio:checked):hover .bp5-control-indicator {
+	background-color: #905e8f !important;
+}
+
+/* tab */
+.bp5-dark .bp5-tab-indicator {
+	background-color: #e1bae1 !important;
+}
+
+.bp5-dark .bp5-tab[aria-selected=true],
+.bp5-dark .bp5-tab:not([aria-disabled=true]):hover {
+	color: #e1bae1 !important;
+}
+
+.bp5-dark .bp5-icon.bp5-intent-primary,
+.bp5-dark .bp5-icon-standard.bp5-intent-primary,
+.bp5-dark .bp5-icon-large.bp5-intent-primary {
+	color: #e1bae1 !important;
+}
+
+/* input & textarea */
+.bp5-dark .bp5-input:focus {
+	box-shadow: inset 0 0 0 1px rgba(144, 94, 143, 0.6),
+	0 0 2px 2px rgba(225, 186, 225, 0.8) !important;
+}
+
+.bp5-dark .bp5-menu-item {
+	color: #f6f7f9 !important;
+}

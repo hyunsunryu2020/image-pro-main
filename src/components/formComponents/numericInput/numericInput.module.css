@@ -1,0 +1,11 @@
+.formItem {
+	width: 50%;
+}
+
+.inputItem {
+	color: red;
+}
+
+.inputItem :global .bp5-input-group {
+	width: 160%;
+}

@@ -1,0 +1,62 @@
+.wrapper {
+	margin-bottom: 12px;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.header {
+	height: 35px;
+	padding: 4px;
+
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.headerIcon {
+	width: 24px;
+	height: 24px;
+	margin-right: 6px;
+}
+
+.arrowDown {
+	position: absolute;
+	right: 8px;
+}
+
+.arrowUp {
+	position: absolute;
+	right: 8px;
+	transform: rotate(180deg);
+}
+
+.body {
+	padding: 12px 24px;
+	background: rgba(101, 96, 100, 0.5);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+}
+
+.body :global .bp5-form-group {
+	margin-bottom: 0;
+}
+
+.runBtn {
+	background-color: rgba(225, 222, 229, 0.62) !important;
+}
+
+.runBtn:hover {
+	background: linear-gradient(to right, #6366f1, #8b5cf6, #d946ef);
+}
+
+.mask {
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(202, 203, 203, 0.25);
+	position: absolute;
+	left: 0;
+}

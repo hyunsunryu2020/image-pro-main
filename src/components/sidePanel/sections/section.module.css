@@ -1,0 +1,9 @@
+.tabWrapper :global .polotno-side-panel-tab.active div,
+.tabWrapper :global .polotno-side-panel-tab:hover div {
+	color: #e1bae1 !important;
+}
+
+.tabWrapper :global .polotno-side-panel-tab:hover,
+.tabWrapper :global .polotno-side-panel-tab.active {
+	background-color: rgba(197, 155, 197, 0.2) !important;
+}

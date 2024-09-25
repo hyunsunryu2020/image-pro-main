@@ -1,0 +1,9 @@
+.imagePreviewWrapper {
+	margin-bottom: 10px;
+}
+
+.flexRC {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}

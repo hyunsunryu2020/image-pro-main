@@ -1,0 +1,93 @@
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+	background-color: #0b0f19 !important;
+	position: relative;
+	color-scheme: light;
+}
+
+.bg {
+	object-fit: cover;
+	filter: brightness(.7);
+}
+
+.dialog {
+	width: 360px;
+	padding: 36px 24px;
+
+	background-color: rgb(222, 220, 220);
+	border-radius: 8px;
+	box-shadow: 0 0 15px 2px rgba(178, 170, 183, .7);
+
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.title {
+	color: rgb(25, 30, 44);
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.text {
+	color: rgb(136, 141, 155);
+	margin: 12px 0;
+}
+
+.GoogleBtn {
+	width: 100%;
+	background-color: #f6f7f9 !important;
+	box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.2), 0 1px 2px rgba(17, 20, 24, 0.1) !important;
+	color: #1c2127 !important;
+}
+
+.divider {
+	margin: 24px 0;
+	color: rgb(136, 141, 155);
+
+	display: flex;
+	align-items: center;
+}
+
+.divider div {
+	width: 138px;
+	height: 1px;
+	background-color: rgb(238, 232, 227);
+}
+
+.divider p {
+	margin: 0 10px;
+}
+
+.textInput {
+	width: 100%;
+	margin-bottom: 18px;
+}
+
+.textInput input {
+	box-shadow: inset 0 0 0 1px rgba(17, 20, 24, 0.2),
+	0 1px 2px rgba(17, 20, 24, 0.1);
+	background: #fff !important;
+	color: #1c2127 !important;
+}
+
+.textInput input::placeholder {
+	color: rgb(136, 141, 155) !important;
+}
+
+.textInput :global .bp5-form-helper-text {
+	color: #ac2f33 !important;
+}
+
+.confirmBtn {
+	width: 100%;
+	color: rgba(255, 255, 255, 0.7) !important;
+	background: linear-gradient(to right, #6366f1, #8b5cf6, #d946ef);
+}

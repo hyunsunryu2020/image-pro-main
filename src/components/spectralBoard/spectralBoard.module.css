@@ -1,0 +1,99 @@
+.spectralBoard {
+    width: 27vh;
+    height: 15vh;
+    background: conic-gradient(#391a35,
+            #3a2230,
+            #3b282c,
+            #3a2c28,
+            #3b3025,
+            #3b3422,
+            #353521,
+            #2f3420,
+            #293320,
+            #1d3320,
+            #1d2c28,
+            #1f2431,
+            #202037,
+            #201a3c,
+            #211343,
+            #251440,
+            #2a153e,
+            #33173b,
+            #432441);
+    position: relative;
+    margin-left: 2%;
+    margin-bottom: 10%;
+}
+
+.board {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-image: conic-gradient(#e00cb4,
+            #e85f89,
+            #ec8370,
+            #ed975e,
+            #ce9645,
+            #eec02e,
+            #d6cd06,
+            #c2cc0b,
+            #9cc910,
+            #62c40f,
+            #06bc1b,
+            #3c9067,
+            #438279,
+            #4a6f90,
+            #4e58a7,
+            #5144bd,
+            #5425dd,
+            #3b0aa4,
+            #3b0aa4,
+            #8302e6,
+            #9e01d9,
+            #c000c7) 1;
+    border-image-slice: 1;
+}
+
+.board::before,
+.board::after {
+    content: '';
+    position: absolute;
+    background-color: #6b6b6d;
+}
+
+.board::before {
+    /* Vertical white line (y-axis) */
+    width: 0.3vh;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+.board::after {
+    /* Horizontal white line (x-axis) */
+    width: 100%;
+    height: 0.3vh;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.draggablePoint {
+    width: 2vh;
+    height: 2vh;
+    background-color: whitesmoke;
+    border: 2px solid black;
+    border-radius: 50%;
+    position: relative;
+}
+
+.h5 {
+    margin-top: 2%;
+    text-align: center;
+    margin-bottom: 5%;
+    font-size: smaller;
+
+}

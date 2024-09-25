@@ -1,0 +1,21 @@
+.midIcon {
+	font-size: 18px;
+}
+
+.toolKitPanelTabIcon {
+	font-size: 18px;
+	margin-right: 6px;
+}
+
+.toolKitCardHeaderIcon {
+	font-size: 24px;
+}
+
+.AIDrawIcon {
+	font-size: 24px;
+	color: var(--text-color-white);
+}
+
+.emptyIcon {
+	font-size: 64px;
+}
