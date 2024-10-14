@@ -1,10 +1,10 @@
 import { StoreType } from 'polotno/model/store';
 import styles from './effectsTab.module.css';
 import { AdjustOptIcon, BasicOptIcon, FiltersOptIcon } from '@/components/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Slider, Switch } from '@blueprintjs/core';
 import { readImage } from '@/common/utils/image.tsx';
-import { createCanvas } from '@/common/utils/canvas.ts';
+import { createCanvas, filterBrightness } from '@/common/utils/canvas.ts';
 import SpatialBoard from '../../spatialBoard';
 import cv from '@techstark/opencv-js';
 import SpectralBoard from '../../spectralBoard';
@@ -25,9 +25,9 @@ export default function MyImageFiltersPanel(props: { store: StoreType, konvaStag
 		setBrightness(ele.brightness);
 		setSepiaEnabled(ele.sepiaEnabled);
 		setGrayscaleEnabled(ele.grayscaleEnabled);
-		
 
 	}, []);
+// 
 
 	/**
 	 * Blur
@@ -656,6 +656,54 @@ export default function MyImageFiltersPanel(props: { store: StoreType, konvaStag
 		}
 	}
 
+	function colorTintAdjustment(src: cv.Mat, adjustmentLevel: number): cv.Mat {
+    const result = src.clone(),
+          row    = src.rows,
+          col    = src.cols;
+
+    for (let i = 0; i < row; i++) {
+        const a = src.ptr(i);
+        const r = result.ptr(i);
+        for (let j = 0; j < col; j++) {
+            let R, G, B;
+			const adjustedLevel = adjustmentLevel * 0.4;
+            // R
+            R = a[j * 4 + 2] - adjustedLevel ;
+            if (R > 255) {
+                r[j * 4 + 2] = 255;
+            } else if (R < 0) {
+                r[j * 4 + 2] = 0;
+            } else {
+                r[j * 4 + 2] = R;
+            }
+            
+            // G
+            G = a[j * 4 + 1] + adjustedLevel;
+            if (G > 255) {
+                r[j * 4 + 1] = 255;
+            } else if (G < 0) {
+                r[j * 4 + 1] = 0;
+            } else {
+                r[j * 4 + 1] = G;
+            }
+            
+            // B
+            B = a[j * 4] - adjustedLevel;
+            if (B > 255) {
+                r[j * 4] = 255;
+            } else if (B < 0) {
+                r[j * 4] = 0;
+            } else {
+                r[j * 4] = B;
+            }
+            
+            r[j * 4 + 3] = a[j * 4 + 3];
+        }
+    }
+
+    return result;
+}
+
 	function colorTemperatureAdjustment(src: cv.Mat, n: number): cv.Mat {
 		const result = src.clone(),
 			  row    = src.rows,
@@ -727,33 +775,75 @@ export default function MyImageFiltersPanel(props: { store: StoreType, konvaStag
 
 	const [spatialCoordinates, setSpatialCoordinates] = useState({ x: 0, y: 0 });
 	const [spectralCoordinates, setSpectralCoordinates] = useState({ x: 0, y: 0 });
+	
 	// x-axis - density
 	// y-axis - brightness/lightness
-	
 	const handleSpatialPositionChange = async (x: number, y: number) => {
 		setSpatialCoordinates({ x, y });
-		// console.log(`Updated position - X: ${x}, Y: ${y}`);
-		const activeEle = store.selectedElements[0];
-		// console.loxg("active ele:", activeEle);
-		activeEle.set({lightnessEnabled: true });
-		console.log("stage from effectsTab:", stage);
-
-		await handleLightness(y);
-	};
-
-
-	const handleSpectralPositionChange = (x: number, y: number) => {
-		setSpectralCoordinates({ x, y });
 		console.log(`Updated position - X: ${x}, Y: ${y}`);
 	};
 
+	const handleSpatialPositionRelease = async (x: number, y: number) => {
+		const activeEle = store.selectedElements[0];
+		activeEle.set({lightnessEnabled: true});
+		
+		let image: HTMLImageElement;
+		if ('lightnessImageSrc' in activeEle) {
+			image = activeEle.lightnessImageSrc;
+		} else {
+			image = await readImage(activeEle.src);
+			activeEle.set({ lightnessImageSrc: image });
+		}
+		const [canvas, ctx] = createCanvas(image.width, image.height);
+		ctx.drawImage(image, 0, 0, image.width, image.height);
+
+		ctx.filter = `brightness(${y}%) saturate(${x}%)`;
+		setTimeout(() => {
+			ctx.drawImage(image, 0, 0, image.width, image.height);
+			const updatedImageSrc = canvas.toDataURL();
+			activeEle.set({ src: updatedImageSrc, lightness: y });
+	}, 1);
+			};
+
+	// x-axis - temperature
+	// y-axis - color tint
+	const handleSpectralPositionChange = async (x: number, y: number) => {
+		setSpectralCoordinates({ x, y });
+		console.log(`Updated spectral position - X: ${x}, Y: ${y}`);
+	};
+
+	const handleSpectralPositionRelease = async (x: number, y: number) => {
+		const activeEle = store.selectedElements[0];
+		activeEle.set({ colorTemperatureEnabled: true });
+		let image: HTMLImageElement;
+		if ('colorTemperatureImageSrc' in activeEle) {
+			image = activeEle.colorTemperatureImageSrc;
+		}
+		else {
+			image = await readImage(activeEle.src);
+			activeEle.set({ colorTemperatureImageSrc: image });
+		}
+		const [canvas, ctx] = createCanvas(image.width, image.height);
+		ctx.drawImage(image, 0, 0, image.width, image.height);
+		let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+		let src = cv.matFromImageData(imgData);
+		let dst = colorTemperatureAdjustment(src, x);
+		let dst2 = colorTintAdjustment(dst,y)
+		setTimeout(() => {
+			cv.imshow(canvas, dst2);
+			src.delete();
+			dst.delete();
+			const outputSrc = canvas.toDataURL();
+			activeEle.set({ src: outputSrc, colorTemperature: x });
+			}, 1);
+	}
 
 	return (store.selectedElements.length === 1 &&
 		<div className={styles.wrapper}>
 			<div className={styles.cardWrapper}>
 				<div className={styles.boardWrapper}>
-					<SpatialBoard onPositionChange={handleSpatialPositionChange}></SpatialBoard>
-						<SpectralBoard onPositionChange={handleSpectralPositionChange}></SpectralBoard>
+					<SpatialBoard onPositionChange={handleSpatialPositionChange} onRelease={handleSpatialPositionRelease}></SpatialBoard>
+						<SpectralBoard onPositionChange={handleSpectralPositionChange} onRelease={handleSpectralPositionRelease}></SpectralBoard>
 				</div>
 				<div className={styles.title}>
 					{BasicOptIcon}

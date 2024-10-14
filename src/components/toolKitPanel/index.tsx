@@ -205,34 +205,22 @@ function showOverlayMessage(message: string, intent: Intent) {
 			const res: AxiosResponse<AIFilterResponse, any> = await AIFilterApi({
 				image_url: src,
 				service_name: serviceName,
-				modelParams: formData
-			});
-
+				modelParams: formData});
 			if (res.data.result) {
 				const result: string = res.data.result;
-
 				if (serviceName === 'get_LUT') {
 					setLutFileUrl(result);
-					OverlayToaster.create({ position: Position.TOP }).show({
-						message: <p>Operation Success!</p>,
-						intent: Intent.SUCCESS,
-					});
-
 					const img: HTMLImageElement = await readImage(src);
 					setMixedImageObj(img);
 					setProcessedImageObj(img);
 				} else {
 					let processedSrc;
-                
 					if (isBase64(result) || process.env.NEXT_PUBLIC_ENV === 'production') {
-						processedSrc = result;
-					} else {
-						processedSrc = result.replace(process.env.NEXT_PUBLIC_FE_HOST, process.env.NEXT_PUBLIC_BE_HOST);
-					}
-
+						processedSrc = result;}
+					else {
+						processedSrc = result.replace(process.env.NEXT_PUBLIC_FE_HOST, process.env.NEXT_PUBLIC_BE_HOST);}
 					const img: HTMLImageElement = await readImage(processedSrc);
 					setProcessedImageObj(img);
-
 					let mixImageBase64, baseImageObj;
 					switch (serviceName) {
 						case 'denoise':
@@ -243,21 +231,19 @@ function showOverlayMessage(message: string, intent: Intent) {
 							setMixedImageObj(mixedImage);
 							break;
 						default:
-							setMixedImageObj(img);
-					}
-				}
-			} else {
-				throw new Error("No result from server.");
-			}
+							setMixedImageObj(img);}}
+				OverlayToaster.create({ position: Position.TOP }).show({
+						message: <p>Operation Success!</p>,
+						intent: Intent.SUCCESS,});}
+			else {
+				throw new Error("No result from server.");}
 		} catch (error) {
 			if (error.name === "CanceledError") {
 				OverlayToaster.create({ position: Position.TOP })
 					.show({
 						message: <p>Operation Cancelled!</p>,
 						intent: Intent.DANGER,
-					});
-				handleClearInputs(data);
-			}
+					}); handleClearInputs(data);}
 			else {
 				// Handle errors such as failed API calls or image processing issues
 				console.error("Error in callAIModel:", error);
@@ -265,11 +251,7 @@ function showOverlayMessage(message: string, intent: Intent) {
 					message: <p>The server is busy, please try again later.</p>,
 					intent: Intent.DANGER,
 				});
-				handleClearInputs(data);
-				
-			}
-		}
-}
+				handleClearInputs(data);}}}
 
 
 
@@ -341,7 +323,6 @@ function showOverlayMessage(message: string, intent: Intent) {
                 const fileURL =
                     window.URL.createObjectURL(blob);
                     
-                // Setting various property values
                 let alink = document.createElement("a");
                 alink.href = fileURL;
                 alink.download = 'lut_file' + Date.now() + '.cube';

@@ -139,7 +139,7 @@ export async function AISamApi(image_url: string) {
 }
 
 export function cancelAIFilterRequest(): void {
-    if (cancelTokenSource) {
+	if (cancelTokenSource) {
         cancelTokenSource.cancel('Operation canceled by the user.');
         cancelTokenSource = null; // Reset the cancel token source after canceling
     }

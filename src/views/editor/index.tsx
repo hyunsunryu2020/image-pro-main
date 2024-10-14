@@ -1,5 +1,7 @@
+// 
+
 import styles from './editor.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { PolotnoContainer, SidePanelWrap } from 'polotno';
 import { createStore } from 'polotno/model/store';
@@ -10,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getTools, setAIServices } from '@/store/userSlice';
 import { AxiosResponse } from 'axios';
 import Konva from 'konva';
-
+import React from 'react';
 
 export default function EditorWrapper(): JSX.Element {
 	/** Canvas state management **/
@@ -24,15 +26,11 @@ export default function EditorWrapper(): JSX.Element {
 	const dispatch = useAppDispatch();
 	const selector = useAppSelector;
 	const userTools: Array<string> = selector(getTools);
-	const [konvaStage, setKonvaStage] = useState<Konva.Stage | null>(null);
+	
 
-	
 	const [toolKitServices, setToolKitServices] = useState<Array<AIServiceOptions>>([]);
-	const onStageReady = (stage: Konva.Stage | null) => {
-		console.log("Konva stage ready:", stage);
-		setKonvaStage(stage);
-	};
 	
+
 	useEffect((): void => {
 		const fetchData = async (): Promise<void> => {
 			await AIServicesListApi().then((res: AxiosResponse<Array<AIServiceAPI>, any>): void => {
@@ -104,25 +102,22 @@ export default function EditorWrapper(): JSX.Element {
 	/** lazy load components **/
 	const MySidePanel = dynamic(() => import('@/components/sidePanel'));
 	const ToolKitPanel = dynamic(() => import('@/components/toolKitPanel'));
-
 	
 	// dynamically import Workspace to ensure perfect window size
 	const DynamicMyWorkspace = dynamic(() => import('@/components/workspace'));
-
 
 	
 	return (
 		<div>
 			<Header store={store} />
 			<div className={styles.wrapper}>
-				<PolotnoContainer  className="polotno-app-container" style={{ width: '100%', height: '100%' }}>
+				<PolotnoContainer className="polotno-app-container" style={{ width: '100%', height: '100%' }}>
 					<SidePanelWrap>
 						<MySidePanel store={store} />
 					</SidePanelWrap>
-						<DynamicMyWorkspace store={store} onStageReady={onStageReady} />
+					<DynamicMyWorkspace store={store}/>
 				</PolotnoContainer>
-						<ToolKitPanel store={store} toolKitAIServices={toolKitServices} konvaStage={konvaStage} />
-
+				<ToolKitPanel store={store} toolKitAIServices={toolKitServices} />
 			</div>
 		</div>
 	);

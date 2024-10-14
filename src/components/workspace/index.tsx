@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { WorkspaceWrap } from 'polotno';
 import Toolbar from 'polotno/toolbar/toolbar';
 import Workspace from 'polotno/canvas/workspace';
@@ -15,31 +15,7 @@ const Tooltip = () => null;
 export default function MyWorkspace(props: { store: StoreType, onStageReady: (stage: Konva.Stage) => void }): JSX.Element {
   const [showCanvasMenu, setShowCanvasMenu] = useState<boolean>(false);
   const [mousePos, setMousePos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [konvaStage, setKonvaStage] = useState<Konva.Stage | null>(null);
-const stageReady = useRef(false);	
 
-   useEffect(() => {
-    const container = document.getElementById('workspace-wrapper-copy') as HTMLDivElement;
-    if (container) {
-      const stage = new Konva.Stage({
-        container: container,
-        width: container.offsetWidth,
-        height: container.offsetHeight,
-      });
-		setKonvaStage(stage);
-
-      const layer = new Konva.Layer();
-		stage.add(layer);
-		 if (konvaStage && !stageReady.current) {
-        props.onStageReady(stage);
-        stageReady.current = true;
-		  }
-	
-		
-	
-    
-    }
-  }, []);
   function MouseRightClick(e: MouseEvent): void {
     e.preventDefault();
 
@@ -83,7 +59,7 @@ const stageReady = useRef(false);
       onContextMenu={MouseRightClick}
       onClick={watchMouseClick}
     >
-      <div
+		  <div
         id="workspace-wrapper-copy"
         style={{
           position: 'absolute',
